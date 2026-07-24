@@ -1,8 +1,21 @@
-{{/* example of extend-footer */}}
-{{/*
-<p class="text-sm text-neutral-500 dark:text-neutral-400">
-  <a class="hover:underline hover:decoration-primary-400 hover:text-primary-500" rel="me" href="https://masto.ai/@blowfish">
-    Follow me on Mastodon
-  </a>
-</p>
-*/}}
+<script>
+(() => {
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('a, button');
+    if (!target) return;
+    const ripple = document.createElement('span');
+    ripple.className = 'click-ripple';
+    ripple.style.left = event.clientX + 'px';
+    ripple.style.top = event.clientY + 'px';
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+
+    if (target.tagName !== 'A' || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    const href = target.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || target.target === '_blank') return;
+    event.preventDefault();
+    document.body.classList.add('page-leaving');
+    setTimeout(() => { window.location.href = target.href; }, 170);
+  });
+})();
+</script>

@@ -1,91 +1,63 @@
-# -- Main Menu --
-# The main menu is displayed in the header at the top of the page.
-# Acceptable parameters are name, pageRef, page, url, title, weight.
-# 
-# The simplest menu configuration is to provide:
-#   name = The name to be displayed for this menu link
-#   pageRef = The identifier of the page or section to link to
-#
-# By default the menu is ordered alphabetically. This can be
-# overridden by providing a weight value. The menu will then be
-# ordered by weight from lowest to highest.
-
 [[main]]
-  name = "文档"
-  pageRef = "docs"
+  name = "首页"
+  pageRef = "/"
   weight = 10
 
 [[main]]
-  name = "简码"
-  pageRef = "docs/shortcodes"
-  weight = 15
-
-[[main]]
-  name = "示例"
+  identifier = "papers"
+  name = "论文阅读"
+  pageRef = "papers"
   weight = 20
 
 [[main]]
-  name = "功能示例"
-  parent = "示例"
-  pageRef = "samples"
-  weight = 16
+  name = "最新论文"
+  parent = "papers"
+  pageRef = "papers"
+  weight = 21
 
 [[main]]
-  name = "模板示例"
-  parent = "示例"
-  pageRef = "examples"
+  name = "图像复原"
+  parent = "papers"
+  url = "/categories/image-restoration/"
+  weight = 22
+
+[[main]]
+  name = "All-in-One Restoration"
+  parent = "papers"
+  pageRef = "topics/all-in-one-restoration"
+  weight = 23
+
+[[main]]
+  name = "超分辨率"
+  parent = "papers"
+  pageRef = "topics/super-resolution"
+  weight = 24
+
+[[main]]
+  name = "Diffusion"
+  url = "/tags/diffusion/"
+  title = "扩散模型与数学建模"
   weight = 30
 
 [[main]]
-  name = "部署指南"
-  parent = "示例"
-  pageRef = "guides"
+  name = "归档"
+  pageRef = "archives"
   weight = 40
 
 [[main]]
-  name = "用户列表"
-  pageRef = "users"
-  weight = 90
+  identifier = "email"
+  pre = "email"
+  url = "mailto:bberllin@foxmail.com"
+  title = "发送邮件"
+  weight = 50
 
-[[main]]
-  name = "周边"
-  url = "https://www.teepublic.com/user/blowfish-store/t-shirts"
-  weight = 100
+[[footer]]
+  name = "论文阅读"
+  pageRef = "papers"
+  weight = 10
 
-#[[main]]
-#  name = "Test"
-#  pageRef = "pagTest"
-#  weight = 1000
+[[footer]]
+  name = "联系"
+  url = "mailto:bberllin@foxmail.com"
+  weight = 20
 
-[[main]]
-  identifier = "twitter"
-  pre = "x-twitter"
-  url = "https://twitter.com/burufugu"
-  weight = 200
-
-#[[main]]
-#  identifier = "mastodon"
-#  pre = "mastodon"
-#  weight = 300
-#  url = "https://masto.ai/@blowfish"
-
-[[main]]
-  identifier = "github"
-  pre = "github"
-  url = "https://github.com/nunocoracao/blowfish"
-  weight = 400
-
-
-# -- Footer Menu --
-# The footer menu is displayed at the bottom of the page, just before
-# the copyright notice. Configure as per the main menu above.
-
- [[footer]]
-   name = "标签"
-   pageRef = "tags"
-   weight = 10
-
- [[footer]]
-   name = "作者"
-   pageRef = "authors"
-   weight = 20

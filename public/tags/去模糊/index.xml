@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>去模糊 on BOLIN的个人博客</title>
+    <link>http://localhost:1313/tags/%E5%8E%BB%E6%A8%A1%E7%B3%8A/</link>
+    <description>Recent content in 去模糊 on BOLIN的个人博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2026 BOLIN</copyright>
+    <lastBuildDate>Wed, 22 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/tags/%E5%8E%BB%E6%A8%A1%E7%B3%8A/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Restormer：高分辨率图像复原中的高效 Transformer</title>
+      <link>http://localhost:1313/papers/restormer/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/papers/restormer/</guid>
+      <description>Restormer 不在空间位置之间构建平方复杂度的注意力，而是在通道维度建模全局关系，并用门控前馈网络保留局部结构。</description>
+      
+    </item>
+    
+  </channel>
+</rss>

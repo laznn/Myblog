@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	
-		<sitemap>
-			<loc>https://localhost:1313/en/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/fr/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/de/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/it/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/pt-pt/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/es/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/pt-br/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/ja/sitemap.xml</loc>
-			
-		</sitemap>
-	
-		<sitemap>
-			<loc>https://localhost:1313/zh-cn/sitemap.xml</loc>
-			
-		</sitemap>
-	
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>http://localhost:1313/papers/ddpm/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/papers/restormer/</loc>
+    <lastmod>2026-07-22T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/papers/</loc>
+    <lastmod>2026-07-23T00:00:00+00:00</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/topics/all-in-one-restoration/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/topics/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/topics/super-resolution/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:1313/archives/</loc>
+    <changefreq>always</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>

@@ -3,9 +3,9 @@
 # https://blowfish.page/docs/getting-started/
 
 theme = "blowfish"
-baseURL = "https://localhost:1313"
-defaultContentLanguage = "en"
-disableLanguages = [] #to allow translation work requiring shipping to production
+baseURL = "https://example.org/"
+defaultContentLanguage = "zh-cn"
+disableLanguages = ["en", "fr", "de", "it", "pt-br", "pt-pt", "es", "ja"]
 
 # pluralizeListTitles = "true" # hugo function useful for non-english languages, find out more in  https://gohugo.io/getting-started/configuration/#pluralizelisttitles
 
@@ -18,10 +18,10 @@ buildFuture = false
 
 enableEmoji = true
 
-googleAnalytics = "G-PEDMYR1V0K"
+googleAnalytics = ""
 
 [pagination]
-  pagerSize = 102
+  pagerSize = 12
 
 [imaging]
   anchor = 'Center'

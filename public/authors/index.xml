@@ -1,15 +1,103 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Authors on Blowfish</title>
-    <link>https://localhost:1313/authors/</link>
-    <description>Recent content in Authors on Blowfish</description>
+    <title>Authors on BOLIN的个人博客</title>
+    <link>http://localhost:1313/authors/</link>
+    <description>Recent content in Authors on BOLIN的个人博客</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <managingEditor>nuno@n9o.xyz (Blowfish)</managingEditor>
-    <webMaster>nuno@n9o.xyz (Blowfish)</webMaster>
-    <copyright>© 2026 Blowfish</copyright>
-    <atom:link href="https://localhost:1313/authors/index.xml" rel="self" type="application/rss+xml" />
+    <language>zh-cn</language>
+    <copyright>© 2026 BOLIN</copyright>
+    <lastBuildDate>Thu, 23 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/authors/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ajay Jain</title>
+      <link>http://localhost:1313/authors/ajay-jain/</link>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/ajay-jain/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Jonathan Ho</title>
+      <link>http://localhost:1313/authors/jonathan-ho/</link>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/jonathan-ho/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Pieter Abbeel</title>
+      <link>http://localhost:1313/authors/pieter-abbeel/</link>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/pieter-abbeel/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Aditya Arora</title>
+      <link>http://localhost:1313/authors/aditya-arora/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/aditya-arora/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Fahad Shahbaz Khan</title>
+      <link>http://localhost:1313/authors/fahad-shahbaz-khan/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/fahad-shahbaz-khan/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Ming-Hsuan Yang</title>
+      <link>http://localhost:1313/authors/ming-hsuan-yang/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/ming-hsuan-yang/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Munawar Hayat</title>
+      <link>http://localhost:1313/authors/munawar-hayat/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/munawar-hayat/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Salman Khan</title>
+      <link>http://localhost:1313/authors/salman-khan/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/salman-khan/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Syed Waqas Zamir</title>
+      <link>http://localhost:1313/authors/syed-waqas-zamir/</link>
+      <pubDate>Mon, 20 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/authors/syed-waqas-zamir/</guid>
+      <description></description>
+      
+    </item>
     
   </channel>
 </rss>

@@ -1,22 +1,19 @@
 locale = "zh-cn"
 label = "简体中文"
-weight = 9
-title = "Blowfish"
+weight = 1
+title = "BOLIN的个人博客"
 
 [params]
   displayName = "简体中文"
   isoCode = "zh-cn"
   rtl = false
   dateFormat = "2006-01-02"
-  logo = "img/blowfish_logo_transparent.png"
-  description = "一个强大、轻量级的 Hugo 主题。"
+  description = "记录论文阅读、图像复原与 Diffusion 的思考。"
 
 [params.author]
-  name = "Blowfish"
-  image = "img/blowfish_logo.png"
-  headline = "一个强大、轻量级的 Hugo 主题。"
-  bio = "一个强大、轻量级的 Hugo 主题。"
+  name = "BOLIN"
+  headline = "论文阅读 · 图像复原 · Diffusion"
   links = [
-    { x-twitter = "https://twitter.com/burufugu" },
-    { github = "https://github.com/nunocoracao/blowfish" },
+    { email = "mailto:bberllin@foxmail.com" },
   ]
+

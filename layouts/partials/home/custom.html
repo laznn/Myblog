@@ -1,32 +1,69 @@
-{{ $jsHome := resources.Get "js/home.js" | resources.Minify | resources.Fingerprint (.Site.Params.fingerprintAlgorithm | default "sha512") }}
-<div id="background">
-  {{ partial "home/background.html" . }}
-</div>
-<div id="hero" style="display:none">
-  {{ partial "home/hero.html" . }}
-</div>
-<div id="profile" style="display:none">
-  {{ partial "home/profile.html" . }}
-</div>
-<div id="card" style="display:none">
-  {{ partial "home/card.html" . }}
-</div>
-<div id="page" style="display:none">
-  {{ partial "home/page.html" . }}
-</div>
-<section class="max-w-7xl mx-auto px-4">
-  {{ partial "sponsors.html" . }}
-</section>
+<main class="bolin-home">
+  <section class="bolin-hero" aria-labelledby="hero-title">
+    <div class="bolin-orb bolin-orb-one" aria-hidden="true"></div>
+    <div class="bolin-orb bolin-orb-two" aria-hidden="true"></div>
+    <div class="bolin-hero-copy">
+      <p class="bolin-kicker"><span></span> PAPER NOTES · 2026</p>
+      <h1 id="hero-title">读论文，拆方法，<br><em>留下可复用的理解。</em></h1>
+      <p class="bolin-lead">记录 Image Restoration 与 Diffusion 的论文阅读、技术推导和实验思考。</p>
+      <div class="bolin-actions">
+        <a class="bolin-button bolin-primary" href="{{ "papers/" | relLangURL }}">开始阅读 <span>→</span></a>
+        <a class="bolin-button bolin-secondary" href="mailto:bberllin@foxmail.com">邮件联系</a>
+      </div>
+    </div>
+    <div class="bolin-model" aria-hidden="true">
+      <div class="bolin-model-head"><span>本周阅读计划</span><i></i></div>
+      <div class="bolin-flow">
+        <div><b>01</b><strong>Read</strong><small>理解问题</small></div>
+        <span>→</span>
+        <div><b>02</b><strong>Think</strong><small>拆解方法</small></div>
+        <span>→</span>
+        <div><b>03</b><strong>Write</strong><small>留下笔记</small></div>
+      </div>
+      <div class="bolin-signal"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <p><i></i> CURRENT READING <strong>Diffusion for Image Restoration</strong></p>
+    </div>
+  </section>
 
-<section class="max-w-7xl mx-auto px-4">
-  {{ partial "contributors.html" . }}
-</section>
+  <section class="bolin-topics" aria-labelledby="topics-title">
+    <div class="bolin-section-head">
+      <div><p>RESEARCH MAP</p><h2 id="topics-title">研究主题</h2></div>
+      <span>从问题、方法到实验的持续记录</span>
+    </div>
+    <div class="bolin-topic-grid">
+      <a class="bolin-topic" href="{{ "categories/image-restoration/" | relLangURL }}">
+        <span class="bolin-topic-no">01</span><div class="bolin-topic-icon">⌁</div>
+        <h3>Image Restoration</h3><p>去噪、去模糊、超分辨率，以及真实退化下的图像恢复。</p><strong>查看主题 <b>↗</b></strong>
+      </a>
+      <a class="bolin-topic" href="{{ "tags/diffusion/" | relLangURL }}">
+        <span class="bolin-topic-no">02</span><div class="bolin-topic-icon">◌</div>
+        <h3>Diffusion Models</h3><p>从生成建模基础，到条件扩散与复原任务中的后验采样。</p><strong>查看主题 <b>↗</b></strong>
+      </a>
+      <a class="bolin-topic" href="{{ "papers/" | relLangURL }}">
+        <span class="bolin-topic-no">03</span><div class="bolin-topic-icon">⌘</div>
+        <h3>Paper Reading</h3><p>结构化拆解论文动机、核心模块、实验结论与待验证问题。</p><strong>全部笔记 <b>↗</b></strong>
+      </a>
+    </div>
+  </section>
 
-<section>
-  {{ partial "recent-articles-demo.html" . }}
-</section>
-<script
-  defer
-  type="text/javascript"
-  src="{{ $jsHome.RelPermalink }}"
-  integrity="{{ $jsHome.Data.Integrity }}"></script>
+  <section class="bolin-latest" aria-labelledby="latest-title">
+    <div class="bolin-section-head">
+      <div><p>LATEST NOTES</p><h2 id="latest-title">最近阅读</h2></div>
+      <a href="{{ "papers/" | relLangURL }}">查看全部 <span>→</span></a>
+    </div>
+    <div class="bolin-note-list">
+      {{ range first 3 (where .Site.RegularPages "Section" "papers") }}
+        <a class="bolin-note" href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}"><b>{{ .Date.Format "02" }}</b><span>{{ .Date.Format "2006.01" }}</span></time>
+          <div><p>{{ with index .Params.categories 0 }}{{ . }}{{ else }}论文阅读{{ end }}</p><h3>{{ .Title }}</h3><span>{{ .Summary | plainify | truncate 110 }}</span></div>
+          <strong aria-hidden="true">↗</strong>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+
+  <section class="bolin-contact">
+    <div><p>IDEAS ARE BETTER SHARED</p><h2>讨论论文，交换想法。</h2></div>
+    <a href="mailto:bberllin@foxmail.com">bberllin@foxmail.com <span>↗</span></a>
+  </section>
+</main>

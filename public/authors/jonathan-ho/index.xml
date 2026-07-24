@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jonathan Ho on BOLIN的个人博客</title>
+    <link>http://localhost:1313/authors/jonathan-ho/</link>
+    <description>Recent content in Jonathan Ho on BOLIN的个人博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2026 BOLIN</copyright>
+    <lastBuildDate>Thu, 23 Jul 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/authors/jonathan-ho/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>读懂 DDPM：从加噪过程到噪声预测</title>
+      <link>http://localhost:1313/papers/ddpm/</link>
+      <pubDate>Thu, 23 Jul 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/papers/ddpm/</guid>
+      <description>DDPM 为什么可以从高斯噪声中生成图像？这篇笔记从前向加噪、反向去噪和噪声预测目标三个部分建立直觉。</description>
+      
+    </item>
+    
+  </channel>
+</rss>

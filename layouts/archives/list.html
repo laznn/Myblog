@@ -1,0 +1,16 @@
+{{ define "main" }}
+  <header class="mt-16 mb-10 max-w-prose">
+    <p class="text-sm font-semibold tracking-widest text-primary-500">ALL NOTES</p>
+    <h1 class="mt-2 text-4xl font-extrabold">{{ .Title }}</h1>
+    <p class="mt-4 text-neutral-500 dark:text-neutral-400">按时间浏览全部论文阅读与技术笔记。</p>
+  </header>
+  <section class="bolin-note-list mb-20">
+    {{ range .Site.RegularPages.ByDate.Reverse }}
+      <a class="bolin-note" href="{{ .RelPermalink }}">
+        <time datetime="{{ .Date.Format "2006-01-02" }}"><b>{{ .Date.Format "02" }}</b><span>{{ .Date.Format "2006.01" }}</span></time>
+        <div><p>{{ with index .Params.categories 0 }}{{ . }}{{ else }}论文阅读{{ end }}</p><h3>{{ .Title }}</h3><span>{{ .Summary | plainify | truncate 110 }}</span></div>
+        <strong aria-hidden="true">↗</strong>
+      </a>
+    {{ end }}
+  </section>
+{{ end }}
