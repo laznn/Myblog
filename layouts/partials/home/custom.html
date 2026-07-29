@@ -1,3 +1,9 @@
+{{ $topicRestoration := resources.Get "img/topics/image-restoration.png" }}
+{{ $topicRestoration = $topicRestoration.Fill "180x180 Center webp q84" }}
+{{ $topicDiffusion := resources.Get "img/topics/diffusion-models.png" }}
+{{ $topicDiffusion = $topicDiffusion.Fill "180x180 Center webp q84" }}
+{{ $topicReading := resources.Get "img/topics/paper-reading.png" }}
+{{ $topicReading = $topicReading.Fill "180x180 Center webp q84" }}
 <main class="bolin-home">
   <section class="bolin-hero" aria-labelledby="hero-title">
     <div class="bolin-orb bolin-orb-one" aria-hidden="true"></div>
@@ -35,15 +41,18 @@
     </div>
     <div class="bolin-topic-grid">
       <a class="bolin-topic" href="{{ "categories/image-restoration/" | relLangURL }}">
-        <span class="bolin-topic-no">01</span><div class="bolin-topic-icon">⌁</div>
+        <span class="bolin-topic-no">01</span>
+        <div class="bolin-topic-icon"><img src="{{ $topicRestoration.RelPermalink }}" width="90" height="90" alt="" loading="lazy" decoding="async"></div>
         <h3>Image Restoration</h3><p>去噪、去模糊、超分辨率，以及真实退化下的图像恢复。</p><strong>查看主题 <b>↗</b></strong>
       </a>
       <a class="bolin-topic" href="{{ "tags/diffusion/" | relLangURL }}">
-        <span class="bolin-topic-no">02</span><div class="bolin-topic-icon">◌</div>
+        <span class="bolin-topic-no">02</span>
+        <div class="bolin-topic-icon"><img src="{{ $topicDiffusion.RelPermalink }}" width="90" height="90" alt="" loading="lazy" decoding="async"></div>
         <h3>Diffusion Models</h3><p>从生成建模基础，到条件扩散与复原任务中的后验采样。</p><strong>查看主题 <b>↗</b></strong>
       </a>
       <a class="bolin-topic" href="{{ "papers/" | relLangURL }}">
-        <span class="bolin-topic-no">03</span><div class="bolin-topic-icon">⌘</div>
+        <span class="bolin-topic-no">03</span>
+        <div class="bolin-topic-icon"><img src="{{ $topicReading.RelPermalink }}" width="90" height="90" alt="" loading="lazy" decoding="async"></div>
         <h3>Paper Reading</h3><p>结构化拆解论文动机、核心模块、实验结论与待验证问题。</p><strong>全部笔记 <b>↗</b></strong>
       </a>
     </div>
@@ -65,8 +74,16 @@
     </div>
   </section>
 
-  <section class="bolin-contact">
-    <div><p>IDEAS ARE BETTER SHARED</p><h2>讨论论文，交换想法。</h2></div>
-    <a href="mailto:bberllin@foxmail.com">bberllin@foxmail.com <span>↗</span></a>
+  <section id="contact" class="bolin-contact">
+    <div class="bolin-contact-copy">
+      <p>IDEAS ARE BETTER SHARED</p>
+      <h2>讨论论文，<br>交换想法。</h2>
+      <span>关于方法、实验与论文细节，欢迎来信。</span>
+    </div>
+    <a class="bolin-contact-mail" href="mailto:bberllin@foxmail.com">
+      <small>EMAIL</small>
+      <strong>bberllin@foxmail.com</strong>
+      <span aria-hidden="true">↗</span>
+    </a>
   </section>
 </main>

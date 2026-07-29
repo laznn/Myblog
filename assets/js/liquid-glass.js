@@ -44,6 +44,33 @@
     magnets.set(item, { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 });
   });
 
+  const glyphStates = new Map();
+  const heroTitle = doc.querySelector("#hero-title");
+  if (heroTitle) {
+    const walker = doc.createTreeWalker(heroTitle, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach((textNode) => {
+      const fragment = doc.createDocumentFragment();
+      [...textNode.nodeValue].forEach((character) => {
+        if (/\s/.test(character)) {
+          fragment.appendChild(doc.createTextNode(character));
+          return;
+        }
+        const glyph = doc.createElement("span");
+        glyph.className = "bolin-glyph";
+        glyph.textContent = character;
+        fragment.appendChild(glyph);
+        glyphStates.set(glyph, {
+          x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0,
+          scale: 1, scaleV: 0, scaleT: 1,
+          glow: 0, glowV: 0, glowT: 0
+        });
+      });
+      textNode.replaceWith(fragment);
+    });
+  }
+
   const grain = doc.createElement("div");
   grain.className = "ambient-grain";
   grain.setAttribute("aria-hidden", "true");
@@ -116,15 +143,15 @@
     const y = clamp(event.clientY - rect.top, 0, rect.height);
     const nx = x / rect.width - .5;
     const ny = y / rect.height - .5;
-    const intensity = surface.matches(".main-menu, .bolin-model") ? 4.2 : 2.8;
+    const intensity = surface.matches(".main-menu, .bolin-model") ? 2.15 : 1.45;
     state.tx = -ny * intensity;
     state.ty = nx * intensity;
-    state.liftT = -7;
+    state.liftT = -3;
     state.gxT = x / rect.width * 100;
     state.gyT = y / rect.height * 100;
     surface.style.setProperty("--angle", `${Math.atan2(y - rect.height / 2, x - rect.width / 2) * 180 / Math.PI + 90}deg`);
-    surface.style.setProperty("--optic-x", `${nx * 12}px`);
-    surface.style.setProperty("--optic-y", `${ny * 10}px`);
+    surface.style.setProperty("--optic-x", `${nx * 6}px`);
+    surface.style.setProperty("--optic-y", `${ny * 5}px`);
   }
 
   addEventListener("pointermove", (event) => {
@@ -166,6 +193,22 @@
       state.tx = (event.clientX - rect.left - rect.width / 2) * strength;
       state.ty = (event.clientY - rect.top - rect.height / 2) * strength;
     }
+
+    if (!reduced) {
+      glyphStates.forEach((state, glyph) => {
+        const rect = glyph.getBoundingClientRect();
+        const dx = event.clientX - (rect.left + rect.width / 2);
+        const dy = event.clientY - (rect.top + rect.height / 2);
+        const distance = Math.hypot(dx, dy);
+        const radius = 145;
+        const influence = distance < radius ? Math.pow(1 - distance / radius, 2) : 0;
+        const safeDistance = Math.max(distance, 1);
+        state.tx = -(dx / safeDistance) * 2.8 * influence;
+        state.ty = -(dy / safeDistance) * 1.8 * influence - 1.3 * influence;
+        state.scaleT = 1 + .026 * influence;
+        state.glowT = 5.5 * influence;
+      });
+    }
   }, { passive: true });
 
   root.addEventListener("mouseleave", () => {
@@ -176,6 +219,10 @@
       state.tx = state.ty = state.liftT = 0;
     });
     magnets.forEach((state) => { state.tx = state.ty = 0; });
+    glyphStates.forEach((state) => {
+      state.tx = state.ty = state.glowT = 0;
+      state.scaleT = 1;
+    });
   });
 
   addEventListener("scroll", () => {
@@ -196,7 +243,7 @@
     burst.style.left = event.clientX + "px";
     burst.style.top = event.clientY + "px";
     doc.body.appendChild(burst);
-    setTimeout(() => burst.remove(), 950);
+    setTimeout(() => burst.remove(), 600);
 
     if (target.tagName !== "A" || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     const href = target.getAttribute("href");
@@ -286,6 +333,18 @@
       [state.y, state.vy] = spring(state.y, state.vy, state.ty, .13, .68, dt);
       item.style.setProperty("--mag-x", `${state.x.toFixed(2)}px`);
       item.style.setProperty("--mag-y", `${state.y.toFixed(2)}px`);
+    });
+
+    glyphStates.forEach((state, glyph) => {
+      [state.x, state.vx] = spring(state.x, state.vx, state.tx, .12, .72, dt);
+      [state.y, state.vy] = spring(state.y, state.vy, state.ty, .12, .72, dt);
+      [state.scale, state.scaleV] = spring(state.scale, state.scaleV, state.scaleT, .1, .74, dt);
+      [state.glow, state.glowV] = spring(state.glow, state.glowV, state.glowT, .09, .76, dt);
+      glyph.style.setProperty("--glyph-x", `${state.x.toFixed(2)}px`);
+      glyph.style.setProperty("--glyph-y", `${state.y.toFixed(2)}px`);
+      glyph.style.setProperty("--glyph-scale", state.scale.toFixed(4));
+      glyph.style.setProperty("--glyph-glow", `${state.glow.toFixed(2)}px`);
+      glyph.style.setProperty("--glyph-blur", `${(state.glow * 1.7).toFixed(2)}px`);
     });
 
     scrollVelocity *= Math.pow(.78, dt);
