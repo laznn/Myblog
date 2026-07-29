@@ -13,6 +13,8 @@ authors: ["Jonathan Ho", "Ajay Jain", "Pieter Abbeel"]
 weight: 1
 ---
 
+{{< katex >}}
+
 > **论文**：Ho, Jain, and Abbeel. *Denoising Diffusion Probabilistic Models*, 2020.  
 > **一句话概括**：用固定的前向过程逐步破坏数据，再训练神经网络学习逆转这一过程。
 
@@ -65,4 +67,3 @@ L_{simple}=\mathbb E_{t,x_0,\epsilon}\left[\lVert\epsilon-\epsilon_\theta(x_t,t)
 - 面对未知退化时，生成先验会带来恢复能力还是不可信的幻觉？
 
 原论文：[Denoising Diffusion Probabilistic Models](https://arxiv.org/abs/2006.11239)
-

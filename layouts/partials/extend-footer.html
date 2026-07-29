@@ -1,5 +1,52 @@
 <script>
 (() => {
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reducedMotion) {
+    const aura = document.createElement('span');
+    aura.className = 'cursor-aura';
+    document.body.appendChild(aura);
+    let pointerX = 0;
+    let pointerY = 0;
+    let auraX = 0;
+    let auraY = 0;
+    const followPointer = () => {
+      auraX += (pointerX - auraX) * 0.14;
+      auraY += (pointerY - auraY) * 0.14;
+      aura.style.left = auraX + 'px';
+      aura.style.top = auraY + 'px';
+      requestAnimationFrame(followPointer);
+    };
+    window.addEventListener('pointermove', (event) => {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      aura.classList.add('is-active');
+      const card = event.target.closest('.bolin-topic, .prose blockquote');
+      if (card) {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--spot-x', (event.clientX - rect.left) + 'px');
+        card.style.setProperty('--spot-y', (event.clientY - rect.top) + 'px');
+      }
+    }, { passive: true });
+    document.documentElement.addEventListener('mouseleave', () => aura.classList.remove('is-active'));
+    followPointer();
+
+    const revealTargets = document.querySelectorAll('.bolin-topic, .bolin-note, .bolin-contact, .prose > h2, .prose > blockquote, .prose > table');
+    revealTargets.forEach((element) => element.classList.add('motion-reveal'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px' });
+    revealTargets.forEach((element, index) => {
+      element.style.transitionDelay = Math.min(index % 4, 3) * 55 + 'ms';
+      observer.observe(element);
+    });
+  }
+
   document.addEventListener('click', (event) => {
     const target = event.target.closest('a, button');
     if (!target) return;

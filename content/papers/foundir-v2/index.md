@@ -14,6 +14,8 @@ venue: "CVPR 2026"
 weight: 1
 ---
 
+{{< katex >}}
+
 > **论文**：Xiang Chen, Jinshan Pan, Jiangxin Dong, Jian Yang, Jinhui Tang. *FoundIR-v2: Optimizing Pre-Training Data Mixtures for Image Restoration Foundation Model*, CVPR 2026.  
 > **一句话概括**：在数据端动态调整不同恢复任务的采样比例，在模型端利用 MoE 动态分配扩散先验。
 
@@ -185,4 +187,3 @@ Data Equilibrium Scheduling 把以往依靠经验设定的数据比例变成了�
 
 原论文：[FoundIR-v2: Optimizing Pre-Training Data Mixtures for Image Restoration Foundation Model](https://arxiv.org/abs/2512.09282)  
 代码：[cschenxiang/FoundIR-v2](https://github.com/cschenxiang/FoundIR-v2)
-

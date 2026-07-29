@@ -13,6 +13,8 @@ authors: ["Syed Waqas Zamir", "Aditya Arora", "Salman Khan", "Munawar Hayat", "F
 weight: 2
 ---
 
+{{< katex >}}
+
 > **论文**：Zamir et al. *Restormer: Efficient Transformer for High-Resolution Image Restoration*, CVPR 2022.  
 > **一句话概括**：把注意力的主要计算从空间维度转移到通道维度，使 Transformer 能够处理高分辨率复原任务。
 
@@ -64,4 +66,3 @@ Restormer 的贡献不只是“把 Transformer 用于复原”，而是重新选
 - 将 Restormer block 用作扩散模型去噪器时，质量与采样速度之间如何权衡？
 
 原论文：[Restormer: Efficient Transformer for High-Resolution Image Restoration](https://arxiv.org/abs/2111.09881)
-
