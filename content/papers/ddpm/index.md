@@ -28,15 +28,11 @@ DDPM 研究的是如何学习复杂的图像分布。它不直接让网络一次
 
 给定干净图像 \(x_0\)，前向过程在每一步加入少量高斯噪声：
 
-\[
-q(x_t\mid x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t}x_{t-1}, \beta_t I).
-\]
+$$ q(x_t\mid x_{t-1}) = \mathcal{N}(x_t; \sqrt{1-\beta_t}x_{t-1}, \beta_t I). $$
 
 记 \(\alpha_t=1-\beta_t\)，\(\bar\alpha_t=\prod_{s=1}^{t}\alpha_s\)，可以直接从 \(x_0\) 采样任意时刻的 \(x_t\)：
 
-\[
-x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,\quad \epsilon\sim\mathcal N(0,I).
-\]
+$$ x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,\quad \epsilon\sim\mathcal N(0,I). $$
 
 这条公式非常重要：训练时无需真的一步步加噪，只需随机采样时间步 \(t\) 和噪声 \(\epsilon\)，便能构造训练样本。
 
@@ -44,9 +40,7 @@ x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,\quad \epsilon\sim\math
 
 真实的反向分布未知，因此使用参数化高斯分布 \(p_\theta(x_{t-1}\mid x_t)\) 逼近。论文采用 U-Net 预测加入到 \(x_t\) 中的噪声 \(\epsilon\)。常见的简化目标是：
 
-\[
-L_{simple}=\mathbb E_{t,x_0,\epsilon}\left[\lVert\epsilon-\epsilon_\theta(x_t,t)\rVert^2\right].
-\]
+$$ L_{simple}=\mathbb E_{t,x_0,\epsilon}\left[\lVert\epsilon-\epsilon_\theta(x_t,t)\rVert^2\right]. $$
 
 直觉上，网络看到带噪图像和时间步，需要判断“其中哪一部分是噪声”。采样时反复调用这个网络，就能逐渐恢复图像结构。
 

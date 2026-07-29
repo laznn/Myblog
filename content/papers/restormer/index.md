@@ -40,9 +40,7 @@ Multi-Dconv Head Transposed Attention 先用 \(1\times1\) 卷积聚合通道信�
 
 Gated-Dconv Feed-Forward Network 将特征投影成两条分支，其中一条经过 GELU 激活，两条分支逐元素相乘：
 
-\[
-\hat X = W_p^0\,\mathrm{GELU}(W_d^1W_p^1X)\odot(W_d^2W_p^2X)+X.
-\]
+$$ \hat X = W_p^0\,\mathrm{GELU}(W_d^1W_p^1X)\odot(W_d^2W_p^2X)+X. $$
 
 门控机制让网络选择性地保留有用特征；depth-wise 卷积则补充了前馈网络原本缺少的局部空间建模。这对边缘、纹理和微小退化尤其重要。
 

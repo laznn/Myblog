@@ -32,41 +32,23 @@ FoundIR-v2 分别从输入数据和模型参数两端进行调度。换句话说
 
 设基础模型为 \(\mathcal M_0\)，参数为 \(\theta\in\mathbb R^M\)。大规模训练集 \(\mathcal D_{tr}\) 按任务属性划分成 \(k\) 个数据域：
 
-\[
-\mathcal D_{tr}=\mathcal D_1\cup\mathcal D_2\cup\cdots\cup\mathcal D_k.
-\]
+$$ \mathcal D_{tr}=\mathcal D_1\cup\mathcal D_2\cup\cdots\cup\mathcal D_k. $$
 
 最简单的做法，是把所有任务数据放在一起随机采样。但不同任务的数据规模、退化难度和优化方向并不相同，任务之间还可能相互促进或相互冲突。即使总数据量和模型结构完全不变，不同的数据混合比例也会产生明显不同的结果。
 
 论文使用 \(\lambda=(\lambda_1,\ldots,\lambda_k)\) 表示各任务域的采样概率，并定义训练数据分布：
 
-\[
-P_{\lambda}
-=
-\sum_{i=1}^{k}\lambda_i\,\mathrm{unif}(\mathcal D_i),
-\]
+$$ P_{\lambda}=\sum_{i=1}^{k}\lambda_i\,\mathrm{unif}(\mathcal D_i). $$
 
 其中
 
-\[
-\mathrm{unif}(\mathcal D)
-=
-\frac{1}{|\mathcal D|}\sum_{x\in\mathcal D}\delta_x
-\]
+$$ \mathrm{unif}(\mathcal D)=\frac{1}{|\mathcal D|}\sum_{x\in\mathcal D}\delta_x. $$
 
 表示数据集内部的均匀分布。这里的 \(\lambda_i\) 决定训练过程中看到第 \(i\) 类任务的概率。
 
 对给定的数据比例 \(\lambda\)，模型通过重建损失学习相应的最优参数：
 
-\[
-\theta_{\lambda}^{*}
-=
-\operatorname*{arg\,min}_{\theta}
-\mathbb E_{(I_{LQ},I_{HQ})\sim P_{\lambda}}
-\left[
-\left\|I_{HQ}-\mathcal M_{\theta}(I_{LQ})\right\|_1
-\right].
-\]
+$$ \theta_{\lambda}^{*}=\operatorname*{arg\,min}_{\theta}\mathbb E_{(I_{LQ},I_{HQ})\sim P_{\lambda}}\left[\left\|I_{HQ}-\mathcal M_{\theta}(I_{LQ})\right\|_1\right]. $$
 
 这也说明 \(\lambda\) 不是一个无关紧要的训练配置：采样分布不同，模型最终得到的参数和能力分布也会不同。
 
@@ -82,30 +64,15 @@ P_{\lambda}
 
 在第 \(t\) 个训练阶段，模型在独立参考集 \(\mathcal D_{ref}\) 上得到各任务性能：
 
-\[
-s_1^{(t)},s_2^{(t)},\ldots,s_k^{(t)}.
-\]
+$$ s_1^{(t)},s_2^{(t)},\ldots,s_k^{(t)}. $$
 
 每隔 \(T\) 个训练步，算法将当前性能与上一次检查结果进行比较：
 
-\[
-\Delta s_j^{(t)}
-=
-s_j^{(t)}-s_j^{(t-T)}.
-\]
+$$ \Delta s_j^{(t)}=s_j^{(t)}-s_j^{(t-T)}. $$
 
 随后更新任务 \(j\) 的采样比例：
 
-\[
-\lambda_j^{(t+1)}
-=
-\frac{
-\lambda_j^{(t)}\exp\left(-\alpha\Delta s_j^{(t)}\right)
-}{
-\sum_{i=1}^{k}
-\lambda_i^{(t)}\exp\left(-\alpha\Delta s_i^{(t)}\right)
-},
-\]
+$$ \lambda_j^{(t+1)}=\frac{\lambda_j^{(t)}\exp\left(-\alpha\Delta s_j^{(t)}\right)}{\sum_{i=1}^{k}\lambda_i^{(t)}\exp\left(-\alpha\Delta s_i^{(t)}\right)}. $$
 
 其中 \(\alpha>0\) 控制权重调整的灵敏度。
 
@@ -140,17 +107,11 @@ FoundIR-v2 比较的是当前结果和 \(T\) 步前结果，因此会优先关�
 
 FoundIR-v2 以 SDXL 为扩散骨干。HQ 图像经过预训练 VAE 编码并加入时间步噪声，形成带噪潜变量；LQ 图像则通过 LQ Encoder 提取条件特征。二者融合后送入 MoE-driven scheduler：
 
-\[
-z_t^{(k)}=\phi\left(f_k^{LQ},x_{t,k}^{HQ}\right).
-\]
+$$ z_t^{(k)}=\phi\left(f_k^{LQ},x_{t,k}^{HQ}\right). $$
 
 Router 根据当前输入生成专家权重 \(w_i^{(k)}\)，再对多个专家的输出进行软融合：
 
-\[
-F_{out}^{(k)}
-=
-\sum_{i=1}^{n}w_i^{(k)}E_i\left(z_t^{(k)}\right).
-\]
+$$ F_{out}^{(k)}=\sum_{i=1}^{n}w_i^{(k)}E_i\left(z_t^{(k)}\right). $$
 
 这里需要注意：专家并不是被人工硬性指定为“去模糊专家”“去雾专家”或“超分专家”。论文中的共享专家采用不同的特征建模方式，Router 根据输入动态组合它们。某些专家可能在训练后对特定退化形成偏好，但这种分工是模型自动学习出来的，并不和人工任务标签一一对应。
 

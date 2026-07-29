@@ -3,16 +3,26 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!reducedMotion) {
+    const liquidCanvas = document.createElement('div');
+    liquidCanvas.className = 'liquid-canvas';
+    liquidCanvas.setAttribute('aria-hidden', 'true');
+    liquidCanvas.innerHTML = '<span class="liquid-blob"></span><span class="liquid-blob"></span><span class="liquid-blob"></span>';
+    document.body.prepend(liquidCanvas);
+
     const aura = document.createElement('span');
     aura.className = 'cursor-aura';
     document.body.appendChild(aura);
     let pointerX = 0;
     let pointerY = 0;
-    let auraX = 0;
-    let auraY = 0;
+    let auraX = window.innerWidth / 2;
+    let auraY = window.innerHeight / 2;
+    let velocityX = 0;
+    let velocityY = 0;
     const followPointer = () => {
-      auraX += (pointerX - auraX) * 0.14;
-      auraY += (pointerY - auraY) * 0.14;
+      velocityX = (velocityX + (pointerX - auraX) * 0.075) * 0.72;
+      velocityY = (velocityY + (pointerY - auraY) * 0.075) * 0.72;
+      auraX += velocityX;
+      auraY += velocityY;
       aura.style.left = auraX + 'px';
       aura.style.top = auraY + 'px';
       requestAnimationFrame(followPointer);
@@ -21,15 +31,41 @@
       pointerX = event.clientX;
       pointerY = event.clientY;
       aura.classList.add('is-active');
+      const menu = document.querySelector('.main-menu');
+      if (menu) {
+        const menuRect = menu.getBoundingClientRect();
+        menu.style.setProperty('--glass-x', (event.clientX - menuRect.left) + 'px');
+        menu.style.setProperty('--glass-y', (event.clientY - menuRect.top) + 'px');
+      }
       const card = event.target.closest('.bolin-topic, .prose blockquote');
       if (card) {
         const rect = card.getBoundingClientRect();
-        card.style.setProperty('--spot-x', (event.clientX - rect.left) + 'px');
-        card.style.setProperty('--spot-y', (event.clientY - rect.top) + 'px');
+        const localX = event.clientX - rect.left;
+        const localY = event.clientY - rect.top;
+        card.style.setProperty('--spot-x', localX + 'px');
+        card.style.setProperty('--spot-y', localY + 'px');
+        if (card.classList.contains('bolin-topic')) {
+          card.style.setProperty('--tilt-x', ((localX / rect.width) - .5) * 3.5 + 'deg');
+          card.style.setProperty('--tilt-y', -((localY / rect.height) - .5) * 3.5 + 'deg');
+        }
       }
+      const blobs = liquidCanvas.children;
+      const nx = event.clientX / window.innerWidth - .5;
+      const ny = event.clientY / window.innerHeight - .5;
+      blobs[0].style.transform = `translate3d(${nx * 18}px, ${ny * 14}px, 0)`;
+      blobs[1].style.transform = `translate3d(${-nx * 22}px, ${ny * 18}px, 0)`;
+      blobs[2].style.transform = `translate3d(${nx * 12}px, ${-ny * 16}px, 0)`;
     }, { passive: true });
     document.documentElement.addEventListener('mouseleave', () => aura.classList.remove('is-active'));
     followPointer();
+
+    const menuBar = document.querySelector('.main-menu');
+    let lastScrollY = window.scrollY;
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (menuBar) menuBar.classList.toggle('is-condensed', currentY > 36);
+      lastScrollY = currentY;
+    }, { passive: true });
 
     const revealTargets = document.querySelectorAll('.bolin-topic, .bolin-note, .bolin-contact, .prose > h2, .prose > blockquote, .prose > table');
     revealTargets.forEach((element) => element.classList.add('motion-reveal'));
@@ -56,6 +92,14 @@
     ripple.style.top = event.clientY + 'px';
     document.body.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
+    if (!reducedMotion) {
+      const wave = document.createElement('span');
+      wave.className = 'glass-wave';
+      wave.style.left = event.clientX + 'px';
+      wave.style.top = event.clientY + 'px';
+      document.body.appendChild(wave);
+      setTimeout(() => wave.remove(), 800);
+    }
 
     if (target.tagName !== 'A' || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     const href = target.getAttribute('href');

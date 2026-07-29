@@ -71,15 +71,7 @@ DAFF 由 Double Stream Block 和 Single Stream Block 串联组成，结构明显
 
 双流交互后的特征被拼接到统一序列中，通过联合注意力进一步融合，并利用门控残差得到对齐结果：
 
-\[
-f_t^{align}
-=
-f_t^{cat}
-+
-g\cdot
-\operatorname{Linear}_2
-\left(A_t^S,\phi(M)\right).
-\]
+$$ f_t^{align}=f_t^{cat}+g\cdot\operatorname{Linear}_2\left(A_t^S,\phi(M)\right). $$
 
 其中门控与时间条件共同影响融合结果，使网络可以在不同时间步采取不同的条件注入策略。
 
@@ -107,21 +99,13 @@ g\cdot
 
 DAEM 将解码特征与 VAE Encoder 的高分辨率跳跃特征结合，通过稀疏 Router 选择专家：
 
-\[
-\operatorname{Router}(x)
-=
-\operatorname{top-k}
-\left(\operatorname{Softmax}(Wx+\xi)\right),
-\qquad k=1.
-\]
+$$ \operatorname{Router}(x)=\operatorname{top-k}\left(\operatorname{Softmax}(Wx+\xi)\right),\qquad k=1. $$
 
 论文中的专家由具有不同感受野的轻量 NAFBlock 构成。Top-1 路由意味着每个位置只激活一个专家，可以控制额外计算量。
 
 专家输出还会受到共享全局分支的乘法调制：
 
-\[
-\hat y_i^E=E_i(x)\otimes S(x).
-\]
+$$ \hat y_i^E=E_i(x)\otimes S(x). $$
 
 可以把共享分支理解为全局结构约束，专家则负责局部模式修正。与把 MoE 放在 Diffusion UNet 内部进行任务级先验分配相比，DAEM 的位置和目标更具体：它主要补偿 VAE 解码阶段的空间细节损失。
 
@@ -131,32 +115,11 @@ DAEM 将解码特征与 VAE Encoder 的高分辨率跳跃特征结合，通过�
 
 第一阶段先进行退化建模：冻结预训练 VAE Encoder 和 Denoising UNet，只训练 DAFF；待其初步收敛后，再解冻可训练的 LQ Encoder 和 Denoising UNet，与 DAFF 联合优化。使用标准噪声预测目标：
 
-\[
-\mathcal L_{stage\text{-}1}
-=
-\left\|
-\epsilon-
-\hat\epsilon_\theta
-\left(
-\sqrt{\bar\alpha_t}x_0^{HQ}
-+
-\sqrt{1-\bar\alpha_t}\epsilon,
-f^{LQ},c,t
-\right)
-\right\|_1.
-\]
+$$ \mathcal L_{stage\text{-}1}=\left\|\epsilon-\hat\epsilon_\theta\left(\sqrt{\bar\alpha_t}x_0^{HQ}+\sqrt{1-\bar\alpha_t}\epsilon,f^{LQ},c,t\right)\right\|_1. $$
 
 第二阶段联合微调 VAE Decoder 和 DAEM，使用：
 
-\[
-\mathcal L_{stage\text{-}2}
-=
-\mathcal L_{recon}
-+
-\lambda_1\mathcal L_{ssim}
-+
-\lambda_2\mathcal L_{aux}.
-\]
+$$ \mathcal L_{stage\text{-}2}=\mathcal L_{recon}+\lambda_1\mathcal L_{ssim}+\lambda_2\mathcal L_{aux}. $$
 
 其中 \(\mathcal L_{aux}\) 是负载均衡损失，用来防止 Top-1 Router 长期集中选择少数专家。
 
@@ -190,4 +153,3 @@ CVPR 并不要求论文中的每个部件都是第一次出现。UniLDiff 的完
 
 原论文：[UniLDiff: Unlocking the Power of Diffusion Priors for All-in-One Image Restoration](https://arxiv.org/abs/2507.23685)  
 CVPR 版本：[CVPR 2026 Open Access](https://openaccess.thecvf.com/content/CVPR2026/html/Cheng_UniLDiff_Unlocking_the_Power_of_Diffusion_Priors_for_All-in-One_Image_CVPR_2026_paper.html)
-
