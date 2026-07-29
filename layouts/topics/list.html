@@ -1,0 +1,25 @@
+{{ define "main" }}
+  <header class="mt-16 mb-10 max-w-prose">
+    <p class="text-sm font-semibold tracking-widest text-primary-500">RESEARCH TOPIC</p>
+    <h1 class="mt-2 text-4xl font-extrabold">{{ .Title }}</h1>
+    {{ with .Description }}<p class="mt-4 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
+    {{ with .Content }}<div class="mt-6 prose dark:prose-invert">{{ . }}</div>{{ end }}
+  </header>
+  {{ $tag := .Params.filterTag }}
+  {{ $count := 0 }}
+  <section class="bolin-note-list mb-20">
+    {{ range (where .Site.RegularPages.ByDate.Reverse "Section" "papers") }}
+      {{ if in .Params.tags $tag }}
+        {{ $count = add $count 1 }}
+        <a class="bolin-note" href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}"><b>{{ .Date.Format "02" }}</b><span>{{ .Date.Format "2006.01" }}</span></time>
+          <div><p>{{ $tag }}</p><h3>{{ .Title }}</h3><span>{{ .Summary | plainify | truncate 110 }}</span></div>
+          <strong aria-hidden="true">↗</strong>
+        </a>
+      {{ end }}
+    {{ end }}
+  </section>
+  {{ if eq $count 0 }}
+    <p class="mb-20 text-neutral-500 dark:text-neutral-400">这个方向的论文笔记正在整理中。</p>
+  {{ end }}
+{{ end }}
