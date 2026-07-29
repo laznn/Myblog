@@ -1,6 +1,16 @@
 <script>
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  const root = document.documentElement;
+  const glassSelector = [
+    '.main-menu', '.bolin-model', '.bolin-topic', '.bolin-contact',
+    '.article-link--card', '.article-link--related', '.article-link--simple',
+    '#TableOfContents', '.prose blockquote', '.prose .katex-display',
+    '.prose table', '#site-footer > div', 'main > article > header', '.pagination > a'
+  ].join(',');
+  const glassSurfaces = [...document.querySelectorAll(glassSelector)];
+  glassSurfaces.forEach((surface) => surface.classList.add('glass-surface'));
 
   if (!reducedMotion) {
     const liquidCanvas = document.createElement('div');
@@ -9,15 +19,29 @@
     liquidCanvas.innerHTML = '<span class="liquid-blob"></span><span class="liquid-blob"></span><span class="liquid-blob"></span>';
     document.body.prepend(liquidCanvas);
 
+    const progress = document.createElement('span');
+    progress.className = 'scroll-progress';
+    progress.setAttribute('aria-hidden', 'true');
+    progress.innerHTML = '<i></i>';
+    document.body.appendChild(progress);
+
     const aura = document.createElement('span');
     aura.className = 'cursor-aura';
     document.body.appendChild(aura);
+    const lens = document.createElement('span');
+    lens.className = 'glass-lens';
+    lens.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(lens);
     let pointerX = 0;
     let pointerY = 0;
     let auraX = window.innerWidth / 2;
     let auraY = window.innerHeight / 2;
+    let lensX = auraX;
+    let lensY = auraY;
     let velocityX = 0;
     let velocityY = 0;
+    let lensVX = 0;
+    let lensVY = 0;
     const followPointer = () => {
       velocityX = (velocityX + (pointerX - auraX) * 0.075) * 0.72;
       velocityY = (velocityY + (pointerY - auraY) * 0.075) * 0.72;
@@ -25,12 +49,21 @@
       auraY += velocityY;
       aura.style.left = auraX + 'px';
       aura.style.top = auraY + 'px';
+      lensVX = (lensVX + (pointerX - lensX) * .16) * .64;
+      lensVY = (lensVY + (pointerY - lensY) * .16) * .64;
+      lensX += lensVX;
+      lensY += lensVY;
+      lens.style.left = lensX + 'px';
+      lens.style.top = lensY + 'px';
       requestAnimationFrame(followPointer);
     };
     window.addEventListener('pointermove', (event) => {
       pointerX = event.clientX;
       pointerY = event.clientY;
+      root.style.setProperty('--glass-pointer-x', event.clientX + 'px');
+      root.style.setProperty('--glass-pointer-y', event.clientY + 'px');
       aura.classList.add('is-active');
+      if (finePointer) lens.classList.add('is-visible');
       const menu = document.querySelector('.main-menu');
       if (menu) {
         const menuRect = menu.getBoundingClientRect();
@@ -49,6 +82,26 @@
           card.style.setProperty('--tilt-y', -((localY / rect.height) - .5) * 3.5 + 'deg');
         }
       }
+      const surface = event.target.closest(glassSelector);
+      glassSurfaces.forEach((item) => {
+        if (item !== surface) item.classList.remove('glass-active');
+      });
+      if (surface) {
+        const rect = surface.getBoundingClientRect();
+        const localX = event.clientX - rect.left;
+        const localY = event.clientY - rect.top;
+        surface.style.setProperty('--local-x', localX + 'px');
+        surface.style.setProperty('--local-y', localY + 'px');
+        surface.style.setProperty('--rim-angle', `${Math.atan2(localY - rect.height / 2, localX - rect.width / 2) * 180 / Math.PI + 90}deg`);
+        surface.classList.add('glass-active');
+        lens.classList.add('is-over-glass');
+        if (surface.matches('.article-link--card, .article-link--related, .article-link--simple')) {
+          surface.style.setProperty('--tilt-x', ((localX / rect.width) - .5) * 2.8 + 'deg');
+          surface.style.setProperty('--tilt-y', -((localY / rect.height) - .5) * 2.8 + 'deg');
+        }
+      } else {
+        lens.classList.remove('is-over-glass');
+      }
       const blobs = liquidCanvas.children;
       const nx = event.clientX / window.innerWidth - .5;
       const ny = event.clientY / window.innerHeight - .5;
@@ -56,18 +109,24 @@
       blobs[1].style.transform = `translate3d(${-nx * 22}px, ${ny * 18}px, 0)`;
       blobs[2].style.transform = `translate3d(${nx * 12}px, ${-ny * 16}px, 0)`;
     }, { passive: true });
-    document.documentElement.addEventListener('mouseleave', () => aura.classList.remove('is-active'));
+    document.documentElement.addEventListener('mouseleave', () => {
+      aura.classList.remove('is-active');
+      lens.classList.remove('is-visible', 'is-over-glass');
+      glassSurfaces.forEach((surface) => surface.classList.remove('glass-active'));
+    });
     followPointer();
 
     const menuBar = document.querySelector('.main-menu');
-    let lastScrollY = window.scrollY;
     window.addEventListener('scroll', () => {
       const currentY = window.scrollY;
       if (menuBar) menuBar.classList.toggle('is-condensed', currentY > 36);
-      lastScrollY = currentY;
+      const maxScroll = Math.max(document.documentElement.scrollHeight - innerHeight, 1);
+      progress.firstElementChild.style.transform = `scaleX(${Math.min(currentY / maxScroll, 1)})`;
+      const drift = Math.min(currentY * .035, 34);
+      liquidCanvas.style.transform = `translate3d(0, ${-drift}px, 0)`;
     }, { passive: true });
 
-    const revealTargets = document.querySelectorAll('.bolin-topic, .bolin-note, .bolin-contact, .prose > h2, .prose > blockquote, .prose > table');
+    const revealTargets = document.querySelectorAll('.bolin-topic, .bolin-note, .bolin-contact, .article-link--card, .article-link--related, .article-link--simple, .prose > h2, .prose > blockquote, .prose > table, .prose > .katex-display');
     revealTargets.forEach((element) => element.classList.add('motion-reveal'));
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
