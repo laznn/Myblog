@@ -1,0 +1,9 @@
+<script>
+  (() => {
+    let visualStyle = "standard";
+    try {
+      visualStyle = localStorage.getItem("bolin-visual-style") === "glass" ? "glass" : "standard";
+    } catch (_) {}
+    document.documentElement.dataset.visualStyle = visualStyle;
+  })();
+</script>
