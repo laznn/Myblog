@@ -1,7 +1,7 @@
 ---
 title: "IQPIR：当 Ground Truth 也不再值得完全相信"
-date: 2026-08-02T00:00:00+08:00
-lastmod: 2026-08-02T00:00:00+08:00
+date: 2026-08-01T00:00:00+08:00
+lastmod: 2026-08-01T00:00:00+08:00
 draft: false
 description: "理解 Beyond Ground-Truth: Leveraging Image Quality Priors for Real-World Image Restoration 的双码本、质量条件 Transformer 与离散质量优化。"
 summary: "IQPIR 的核心不是重新设计一个更大的恢复网络，而是承认真实数据集的 GT 质量参差不齐，并把无参考 IQA 变成质量先验、条件信号和训练目标。"
