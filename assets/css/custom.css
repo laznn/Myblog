@@ -418,6 +418,18 @@ main > article > header { padding: clamp(1.4rem, 4vw, 2.8rem); margin-bottom: 2.
 .prose img:hover { transform: scale(1.015); box-shadow: 0 38px 95px rgba(54, 60, 98, .23), 0 0 50px rgba(73, 185, 255, .17); }
 .prose a:not(.heading-anchor) { text-decoration-color: rgba(94, 119, 211, .35); text-underline-offset: .23em; transition: color .3s ease, text-shadow .4s ease; }
 .prose a:not(.heading-anchor):hover { color: #586bc6; text-shadow: 0 0 22px rgba(81, 130, 229, .28); }
+
+/* Keep article pages balanced on wide screens instead of leaving an empty right half. */
+@media (min-width: 1280px) {
+  body:has(> main > article) { max-width: none; }
+  body:has(> main > article) > main { width: min(100% - 4rem, 1580px); margin-inline: auto; }
+  main > article > header { max-width: 980px !important; }
+  main > article > section { width: 100%; gap: clamp(2rem, 4vw, 5rem); }
+  main > article > section > div:first-child { flex: 0 0 clamp(250px, 21vw, 340px); }
+  main > article > section > div:last-child { flex: 1 1 auto; min-width: 0; }
+  main > article .article-content,
+  main > article > footer { max-width: min(100%, 980px) !important; }
+}
 #site-footer { padding: 2.5rem max(1rem, 4vw) !important; }
 #site-footer > div { max-width: 1180px; margin: auto; padding: 1.4rem 1.8rem; overflow: hidden; border-radius: 29px !important; }
 .pagination > a { padding: 1.1rem !important; border-radius: 23px !important; }

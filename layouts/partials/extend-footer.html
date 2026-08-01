@@ -9,3 +9,18 @@
 </svg>
 {{ $liquid := resources.Get "js/liquid-glass.js" | minify | fingerprint "sha512" }}
 <script src="{{ $liquid.RelPermalink }}" integrity="{{ $liquid.Data.Integrity }}" defer></script>
+<script>
+  window.addEventListener("load", () => {
+    if (typeof renderMathInElement !== "function") return;
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "\\[", right: "\\]", display: true },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "$", right: "$", display: false }
+      ],
+      throwOnError: false,
+      strict: "ignore"
+    });
+  });
+</script>
